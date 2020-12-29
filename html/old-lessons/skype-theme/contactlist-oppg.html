@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="contactlist-oppg.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <title>Contactlist</title>
+
+</head>
+
+<body>
+    <div id="demo"></div>
+    <div class="bground">
+        <div class="main-container">
+            <div class="topbar-header">
+                <div class="topbar">
+                    <ul>
+                        <li><a href="#"> <img src="logo.png" alt="#" width="50px" height="50px"> </a></li>
+                        <li class="pos1"><a href="#">Contacts</a></li>
+                        <li class="pos2"><a href="#">Friends</a></li>
+                        <li class="pos3"><a href="#">Groups</a></li>
+                        <input type="text" id="adress-book" placeholder="My adress book">
+                    </ul>
+
+                </div>
+                <hr>
+            </div>
+            <div class="main-body">
+                <div class="leftside-body">
+                    <input type="text" id="searchbar" name="searchbar" placeholder="Search Contacts">
+                    <a href="#" onclick="show_add_form()" ><i class="fas fa-plus"></i></a>
+                    <div class="contactlist">
+                        <ul id="contact_ul">
+                            
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="rightside-body">
+                    <div class="detail">
+                        <img src="" id="detail_img" alt="#" width="80px" height="80px">
+                        <i class="fas fa-pen"></i>
+                        <i class="fas fa-ellipsis-v" id="menu"></i><br>
+                        <span class="name" id="detail_name"> </span><br>
+                        <span class="prof" id="detail_profession"> </span>
+                    </div>
+                    <div class="bended-line"></div>
+
+                    <div class="contact-detail">
+                        <div class="telephone">
+                            <i class="fas fa-phone"></i>
+                            <span class="tel-num"> +473214569</span><br>
+                            <span class="prof1">Work</span>
+                        </div>
+                        <div class="address">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span class="work-address"> F-9 markaz, machar colony, Sheikhupura, Pakistan</span><br>
+                            <span class="prof1">Work</span>
+
+                        </div>
+                        <div class="note">
+                            <i class="fas fa-clipboard"></i>
+                            <span> Private Note</span><br>
+                            <textarea name="" id="private-note" cols="60" rows="7"
+                                placeholder="Please write your message here..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="clr"></div>
+            
+        </div>
+    </div>
+    <div id="add_form">
+        <div class="form-container">
+            <form action="" id="contact-form">
+                <label for="firt-name">First Name</label>
+                <input type="text" id="first-name" class="form-input">
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" class="form-input">
+                <label for="profession">Profession</label>
+                <input type="text" id="profess" class="form-input">
+                <input type="button" id="save" value="Save" class="form-input">
+                <input type="button" id="cancel" value="Cancel" class="form-input" onclick="close_add_form()">
+
+            </form>
+            
+        </div>
+    </div>
+    <script>
+        // Create an object:
+        var contacts = {
+
+            0: {
+                firstName: "John",
+                lastName: "Doe",
+                profession: "Lawyer",
+                contact: "blue",
+                pic: "1.jpg"
+                
+            },
+            1: {
+                firstName: "Ghulam",
+                lastName: "Mustafa",
+                profession: "Designer",
+                contact: "blue",
+                pic: "2.jpg"
+            },
+            2: {
+                firstName: "Shoaib",
+                lastName: "Talha",
+                profession: "Hair dresser",
+                contact: "blue",
+                pic: "3.jpg"
+            }
+            
+        }; 
+        
+        // Display some data from the object:
+
+        var contact_html = '';
+        Object.keys(contacts).forEach(key => {
+            contact_html += '<li onclick="show_detail('+ key +')"> <input type="checkbox">';
+            contact_html += '<img src="' + contacts[key]['pic'] + '" alt="#" width="50px" height="50px">';
+            contact_html += '<span class="name">' + contacts[key]['firstName'] + '  ' + contacts[key]['lastName'] + '</span><br>';
+            contact_html += '<span class="prof">' + contacts[key]['profession'] + '</span>';
+            contact_html += ' </li>';
+
+        });
+        document.getElementById("contact_ul").innerHTML = contact_html;
+
+        function add_contact() {
+
+            contacts[Object.keys(contacts).length] = {
+                firstName: document.getElementById("first-name").value,
+                lastName: document.getElementById("last-name").value,
+                profession: document.getElementById("profess").value,
+                contact: "blue",
+                pic: "3.jpg"
+            };
+
+            var contact_html = '';
+            Object.keys(contacts).forEach(key => {
+                contact_html += '<li onclick="show_detail('+ key +')"> <input type="checkbox">';
+                contact_html += '<img src="' + contacts[key]['pic'] + '" alt="#" width="50px" height="50px">';
+                contact_html += '<span class="name">' + contacts[key]['firstName'] + '  ' + contacts[key]['lastName'] + '</span><br>';
+                contact_html += '<span class="prof">' + contacts[key]['profession'] + '</span>';
+                contact_html += ' </li>';
+
+            });
+            document.getElementById("contact_ul").innerHTML = contact_html;
+                document.getElementById("first-name").value = "";
+                document.getElementById("last-name").value="";
+                document.getElementById("profess").value="";
+
+        }
+        function show_add_form() {
+            document.getElementById("add_form").style.display="block";
+        }
+        function close_add_form(){
+            document.getElementById("add_form").style.display="none";
+        }
+        var savebtn = document.getElementById("save");
+        savebtn.addEventListener("click",close_add_form);
+        savebtn.addEventListener("click",add_contact);
+        //savebtn.addEventListener("blur",close_add_form);
+
+        // click on a contact and contact list shows on paralel page.
+
+        var person_detail = {
+                firstName: "",
+                lastName: "",
+                profession: "",
+                contact: "",
+                pic: ""
+                };
+
+        function show_detail(key_id){
+            Object.keys(contacts).forEach(key => {
+               if(key_id == key){
+              person_detail =  contacts[key];
+              document.getElementById("detail_name").innerHTML = person_detail.firstName + ''+ person_detail.lastName;
+              document.getElementById("detail_profession").innerHTML = person_detail.profession;
+              document.getElementById("detail_img").src = person_detail.pic;
+               }
+            });
+        }
+        show_detail(1);
+    </script>
+</body>
+or  
+</html>

@@ -1,0 +1,308 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+
+}
+.bground{
+    position: relative;
+    margin-left: 10px;
+    margin-top: 100px;
+    background-image: linear-gradient(skyblue,silver);
+}
+
+.main-container{
+    position: relative;
+    width: 75%;
+    margin: auto;
+    background-color: white;
+    box-shadow: 3px 20px 20px 8px rgba(0,0,0,0.40);
+    top: -55px;
+  
+}
+.topbar-header{
+    padding: 20px;
+    margin-top: 10px;
+    
+}
+.topbar{
+    position: relative;
+}
+.topbar ul li{
+    display: inline;
+    list-style: none;
+    font-weight: bold;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    
+    
+}
+.topbar ul li a{
+    padding-right: 40px;
+    text-decoration: none;
+    color:rgb(177, 173, 173);
+    
+}
+.topbar ul li a:hover{
+    transition: 0.6s;
+    color: black;
+}
+.topbar ul li a:active{
+    color: black;
+}
+.topbar ul li a img{
+    padding-right: 30px;
+}
+.topbar .pos1{
+        position: absolute;
+        top: 15px;
+}
+.topbar .pos2{
+    position: absolute;
+    top: 15px;
+    left: 250px;
+}
+.topbar .pos3{
+    position: absolute;
+    top: 15px;
+    left: 332px;
+}
+#adress-book{
+    position: absolute;
+    right: 15px;
+    outline-style: none;
+    padding: 12px;
+    border-radius: 15px;
+    border: 1px solid rgb(179, 174, 174);
+    background-color: rgb(245, 244, 244); ;
+}
+.topbar input:hover{
+    border: 1px solid blue;
+    transition: 0.5s;
+}
+.topbar input:focus{
+    border: 1px solid blue;
+    transition: 0.5s;
+    background-color: ghostwhite;
+}
+
+.main-body{
+    
+    width: 100%;
+    padding: 20px;
+    float: left;
+    box-sizing: border-box;
+    display: inline-flex;
+    
+
+}
+.clr{
+    clear: both;
+}
+.leftside-body{
+    width: 35%;
+    padding-left: 16px;
+}
+.rightside-body{
+    width: 65%;
+    border-left: 2px solid rgb(177, 173, 173);
+    padding-left: 5px;
+    box-sizing: border-box;
+    position: relative;
+    
+}
+.leftside-body input{
+    border-radius: 25px;
+    border: 1px rgba(0,0,0,0.50) solid;
+    padding: 20px;
+    width: 240px;
+    outline-style: none;
+    background-color: rgb(245, 244, 244);
+}
+.leftside-body input:hover{
+    border: 1px solid blue;
+    transition: 0.5s;
+}
+.leftside-body input:focus{
+    border: 1px solid blue;
+    transition: 0.5s;
+    background-color: ghostwhite;
+}
+.leftside-body .fas{
+    padding-left: 15px;
+    color: blue;
+    font-size: 30px;
+}
+.contactlist{
+    position: relative;
+    margin-top: 40px;
+    overflow-y: scroll;
+    margin-left: -10px;
+}
+.contactlist li{
+    list-style: none;
+    display: block;
+    padding-bottom: 50px;
+}
+.contactlist input{
+    margin-left: -140px;
+}
+.contactlist img{
+    position: absolute;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: -105px;
+    margin-top: -12px;
+}
+.contactlist img:hover{
+    border:2px solid blue;
+    transition: 0.30s;
+}
+.contactlist .name{
+    position: absolute;
+    margin-left: -32px;
+    font-family: serif;
+    font-weight: bold;
+}
+.contactlist .prof{
+    position: absolute;
+    margin-left: 70px;
+    font-family: serif;
+    color:rgb(179, 174, 174);
+}
+.rightside-body img{
+    border-radius: 50%;
+    cursor: pointer;
+    margin-left: 250px;
+    margin-right: 150px;
+}
+.rightside-body img:hover{
+    border:2px solid blue;
+    transition: 0.30s;
+}
+.rightside-body .fas{
+    color: blue;
+    position: absolute;
+    margin-left: 50px;
+    cursor: pointer;
+}
+#menu{
+    margin-left: 100px;
+}
+.rightside-body .name{
+    font-family: serif;
+    font-weight: bold;
+    font-size: 25px;
+    margin-left: 220px;
+}
+.rightside-body .prof{
+    font-family: serif;
+    color:rgb(179, 174, 174);
+    font-size: 18px;
+    margin-left: 200px;
+}
+.bended-line{
+    margin-top: 40px;
+    border: 1px solid rgb(179, 174, 174) ;
+}
+.contact-detail{
+    padding: 30px;
+}
+.telephone .fas{
+    color: blue;
+    font-size: 24px;
+}
+.telephone .tel-num{
+    margin-left: 90px;
+    font-size: 18px;
+}
+.telephone .prof1{
+    margin-left: 90px;
+    color: rgb(179, 174, 174);
+}
+.address{
+    margin-top: 35px;
+}
+.address .fas{
+    color: blue;
+    font-size: 24px;
+}
+.address .work-address{
+    margin-left: 90px;
+    font-size: 16px;
+}
+.address .prof1{
+    margin-left: 90px;
+    color: rgb(179, 174, 174);
+}
+.note{
+    margin-top: 35px;
+}
+.note .fas{
+    font-size: 24px;
+}
+.note span{
+    margin-left: 90px;
+    font-size: 16px;
+}
+#private-note{
+    margin-top: 15px;
+    margin-left: 50px;
+}
+
+#add_form{
+    width:50%;
+    height: 380px;
+    position: absolute;
+    top:100px;
+    margin: 0 auto;
+    background-color: white;
+    z-index: 100;
+    display: none;
+    left: 25%;
+    box-shadow: 3px 20px 20px 8px rgba(0,0,0,0.40);
+}
+
+#contact-form{
+    padding: 30px;
+    display: block;
+}
+label{
+    font-size: 16px;
+    font-weight: bold;
+    display: block;
+    
+}
+
+.form-container input{
+    margin: auto;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 15px;
+    outline: none;
+    font-size: 14px;
+    margin-top: 15px;
+    padding: 6px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
