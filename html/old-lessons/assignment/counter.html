@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    
+        <div class="container">
+          <h1>counter</h1>
+          
+          <div class="button-container">
+              <div id="total">0</div>
+            <button class="btn reset">reset</button>
+            <span id="value">0</span>
+            <span id="myid"></span>
+            <button class="btn decrease">-</button>
+            <button class="btn increase">+</button><br>
+            <button class="btn reset">reset</button>
+            <span id="value1">0</span>
+            <button class="btn1 decrease" id="btnM">-</button>
+            <button class="btn1 increase">+</button><br>
+            <button class="btn1 reset">reset</button>
+            <span id="value2">0</span>
+            <button class="btn2 decrease">-</button>
+            <button class="btn2 increase">+</button>
+          </div>
+        </div>
+        <script>
+
+
+
+const total = document.querySelector("#total");
+const value = document.querySelector("#value");
+const btns = document.querySelectorAll(".btn");
+const btnM= document.getElementById('btnM');
+
+let count = 0;
+
+btns.forEach(function (btn) {
+  btn.addEventListener("click", function (e) {
+    const styles = e.currentTarget.classList;
+    if (styles.contains("decrease")) {
+      count--;
+    
+    } else if (styles.contains("increase")) {
+      count++;
+      
+    } else {
+      count = 0;
+    }
+
+    if (count > 0) {
+      value.style.color = "green";
+      
+    }
+    if (count < 0) {
+      value.style.color = "red"; 
+      count = 0;
+      document.getElementById('myid').innerHTML = "zero";
+    }
+    if (count === 0) {
+      value.style.color = "#222";
+      //btn.disabled = true;
+    }
+    
+     value.textContent = count;
+     total.innerHTML = count + count1 + count2;
+    
+  });
+});
+
+
+let count1 = 0;
+const value1 = document.querySelector("#value1");
+const btns1 = document.querySelectorAll(".btn1");
+
+btns1.forEach(function (btn1) {
+  btn1.addEventListener("click", function (e) {
+    const styles = e.currentTarget.classList;
+    if (styles.contains("decrease")) {
+      count1--;
+      
+    } else if (styles.contains("increase")) {
+      count1++;
+      
+     
+    } else {
+      count1 = 0;
+    }
+    if (count1 === 0) {
+      value1.style.color = "#222";
+      btn1.disabled = true;
+    }
+    else{
+       btnM.disabled = false; 
+    }
+    if (count1 > 0) {
+      value1.style.color = "green";
+     
+    }
+    if (count1 < 0) {
+      value1.style.color = "red";
+    }
+     value1.textContent = count1;
+     total.innerHTML = count + count1 + count2;
+  });
+});
+
+
+let count2 = 0;
+const value2 = document.querySelector("#value2");
+const btns2 = document.querySelectorAll(".btn2");
+
+btns2.forEach(function (btn2) {
+  btn2.addEventListener("click", function (e) {
+    const styles = e.currentTarget.classList;
+    if (styles.contains("decrease")) {
+      count2--;
+     
+    } else if (styles.contains("increase")) {
+      count2++;
+      
+    } else {
+      count2 = 0;
+    }
+
+    if (count2 > 0) {
+      value.style.color = "green";
+    }
+    if (count2 < 0) {
+      value.style.color = "red";
+    }
+    if (count2 === 0) {
+      value.style.color = "#222";
+     // btn2.classList.add('inactive');
+    }
+
+     value2.textContent = count2;
+     total.innerHTML = count + count1 + count2;
+  });
+  
+});
+
+
+        </script>
+    
+</body>
+</html>

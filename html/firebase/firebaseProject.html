@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<body>
+    
+    
+name <input type="text" id="namebox"> <br><br>
+roll no <input type="text" id="rollbox"> <br><br>
+section <input type="text" id="secbox"> <br><br>
+gender <input type="text" id="genbox"> <br><br>
+<br><br>
+<button id="insert">insert</button>
+<button id="select">select</button>
+<button id="update">update</button>
+<button id="delete">delete</button>
+
+
+<script>
+// <!-- ----------ready data-------------------------- -->
+var nameV, rollV, secV, genV;
+
+function Ready(){
+    nameV = document.getElementById('namebox').value;
+    rollV = document.getElementById('rollbox').value;
+    secV = document.getElementById('secbox').value;
+    genV = document.getElementById('genbox').value;
+}
+// ------------insert data---------------
+document.getElementById('insert').onclick = function(){
+    Ready();
+    firebase.database().ref('student/'+ rollV).set({
+        NameOfStudent: nameV,
+        RollNo: rollV,
+        Section: secV,
+        Gender: genV,
+        class: "10th"
+    });
+}
+// ---------select data--------------
+
+document.getElementById('select').onclick=function(){
+    Ready();
+    firebase.database().ref('student/'+rollV).on('value',function(snapshot){
+        document.getElementById('namebox').value = snapshot.val().NameOfStudent
+        document.getElementById('secbox').value = snapshot.val().Section;
+        document.getElementById('genbox').value = snapshot.val().Gender;
+    });
+}
+// -------------update data-----------
+document.getElementById('update').onclick = function(){
+    Ready();
+    firebase.database().ref('student/'+ rollV).update({
+        NameOfStudent: nameV,
+        Section: secV,
+        Gender: genV
+    });
+}
+// ----------remove data------------------
+document.getElementById('delete').onclick = function(){
+    Ready();
+    firebase.database().ref('student/'+ rollV).remove();
+}
+
+
+</script>
+
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-database.js"></script> 
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyCTR6fpbwwPuyFNwSB3DpBfZZ0ORkmVv0o",
+      authDomain: "fir-database-3795a.firebaseapp.com",
+      projectId: "fir-database-3795a",
+      storageBucket: "fir-database-3795a.appspot.com",
+      messagingSenderId: "285234524185",
+      appId: "1:285234524185:web:3e95cc7615bd627eea7a88"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
+
+</body>
+</html>
