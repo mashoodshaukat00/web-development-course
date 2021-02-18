@@ -1,0 +1,41 @@
+@import "css3-mixins.scss";
+
+@mixin colors{
+    color: blue;
+    font-size: 12px;
+}
+
+
+$FavColor:green;
+$divwidth:400px;
+$divheight:250px;
+$fontsize:12px;
+$fontfamily:arial;
+$divpadding:20px;
+
+body{
+    @include colors;
+   // $FavColor:green;
+    background-color:$FavColor;
+    div{
+        background-color:red;
+        width: $divwidth;
+        height: $divheight;
+        padding: $divpadding;
+        p{
+            padding: $divpadding;
+            @include double-borders(yellow,pink,1px);
+
+            @include text-shadow(10px, 10px, 20px, white);
+            
+        }
+    }
+
+}
+#header{
+    h1{
+       font-size: $fontsize;
+       color: purple; 
+    }
+}
+

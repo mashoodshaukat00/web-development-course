@@ -14,7 +14,7 @@
     <div class="container-fluid bg-white chatbox shadow-lg rounded">
        <div class="row h-100">
         <div class="col-md-4 pr-0 d-none d-md-block" id="side-1">
-            <div class="card h-100">
+            <div class="card">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-1 col-sm-1 col-md-1 d-md-none">
@@ -76,7 +76,20 @@
                         </div>
                         <div class="col-4 col-sm-4 col-md-4 col-lg-3 icon">
                             <i class="fas fa-search"></i>
-                            <i class="fas fa-paperclip ml-4"></i>
+                            <span class="dropdown">
+                                <span class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fas fa-paperclip ml-4"></i>
+                                </span>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" onclick="chooseImage()">
+                                         Image
+                                        <input type="file" id="imageFile" onchange="sendImage(this)" accept="image/*" style="display: none;">
+                                        </a>
+                                    <a class="dropdown-item"> Document</a>
+                                    <a class="dropdown-item"> Camera</a>
+                                    <a class="dropdown-item"> Video</a>
+                                </div>   
+                            </span>
                             <i class="fas fa-ellipsis-v ml-4"></i>
                         </div>
                     </div>
@@ -87,15 +100,41 @@
         
                 </div>
                 <div class="card-footer">
+                    <div class="row" style="position: relative;">
+                        <div class="col-md-12" id="emoji" style="display: none;">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                  <a class="nav-link active" id="home-tab" data-toggle="tab" href="#smiley" role="tab" aria-controls="home" aria-selected="true">
+                                      Smiley</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                                      Profile</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">
+                                      Contact</a>
+                                </li>
+                              </ul>
+                              <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="smiley" role="tabpanel" aria-labelledby="home-tab">
+                                    <!-- <a href="#" onclick="getEmoji(this)">&#128540;</a> -->
+                                </div>
+                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                              </div>
+                        </div>
+                    </div>
                     <div class="row">
-                        <div class="col-2 col-md-1">
-                            <i class="far fa-grin fa-2x"></i>
+                        <div class="col-2 col-md-1" style="cursor: pointer;">
+                            <i class="far fa-grin fa-2x" onclick="showEmojiPanel()"></i>
                         </div>
                         <div class="col-8 col-md-10">
-                            <input id="txtMessage" type="text" placeholder="Type here" class="form-control form-rounded">
+                            <input id="txtMessage" onkeyup="changeSendIcon(this)" onfocus="hideEmojiPanel()" type="text" placeholder="Type here" class="form-control form-rounded">
                         </div>
-                        <div class="col-2 col-md-1">
-                            <i class="fas fa-microphone fa-2x"></i>
+                        <div class="col-2 col-md-1" style="cursor: pointer;">
+                            <i id="audio" onclick="record(this)" class="fas fa-microphone fa-2x"></i>
+                            <i id="send" class="fas fa-paper-plane fa-2x" style="display: none;"></i>
                         </div>
                     </div>
                 </div>
@@ -118,7 +157,10 @@
     <script src="Scripts/popper-1.14.7.min.js"></script>
     <script src="Scripts/bootstrap-4.3.1.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase.js"></script>
+    <!-- <script src="firebase-messaging-sw.js"></script> -->
+    <script src="Scripts/firebase-messaging.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-messaging.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
