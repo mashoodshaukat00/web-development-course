@@ -319,37 +319,189 @@ function loadChatList(){
     });
 }
 
-function populateFriendList(){
-    document.getElementById('lstFriend').innerHTML =`<div class="text-center">
+function populateUserList(){
+    document.getElementById('lstUsers').innerHTML =`<div class="text-center">
                                                      <span class="spinner-border text-primary mt-5" style="width:7rem; height:7rem">
                                                     </div>`;                                          
     var db = firebase.database().ref('users');
+    var dbNoti = firebase.database().ref('notifications');
     var lst = '';
     db.on('value', function(users){
         if(users.hasChildren()){
             lst = `<li class="list-group-item" style="background-color: #f8f8f8;">
             <input type="text" placeholder="search or new chat" class="form-control form-rounded">
         </li>`;
+        document.getElementById('lstUsers').innerHTML = lst;
         }
         users.forEach(function(data){
             var user = data.val();
             if(user.email !== firebase.auth().currentUser.email){
-                lst += `<li class="list-group-item list-group-item-action" data-dismiss = "modal" onclick="startChat('${data.key}','${user.name}','${user.photoURL}')">
+                dbNoti.orderByChild('sendTo').equalTo(data.key).on('value', function(noti){
+                    if( noti.numChildren() > 0 && Object.values(noti.val())[0].sendFrom === currentUserKey){
+                        lst = `<li class="list-group-item list-group-item-action">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img src="${user.photoURL}" alt="image" class="friend-pic rounded-circle">
+                            </div>
+                            <div class="col-md-10" style="cursor: pointer;">
+                                <div class="name">${user.name}
+                                <button class = "btn btn-sm btn-default" style = "float:right;"><i class="fas fa-user-plus"></i> Sent </button>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </li>`;
+                    document.getElementById('lstUsers').innerHTML += lst;
+                    }
+                    else{
+                        lst = `<li class="list-group-item list-group-item-action" data-dismiss = "modal">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img src="${user.photoURL}" alt="image" class="friend-pic rounded-circle">
+                            </div>
+                            <div class="col-md-10" style="cursor: pointer;">
+                                <div class="name">${user.name}
+                                <button onclick = "sendRequest('${data.key}')" class = "btn btn-sm btn-primary" style = "float:right;"><i class="fas fa-user-plus"></i> send request </button>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </li>`;
+                    document.getElementById('lstUsers').innerHTML += lst;
+                    }
+                });
+               
+            }
+             
+        });
+        
+    });
+}
+
+function notificationCount(){
+    let db = firebase.database().ref('notifications');
+    db.orderByChild('sendTo').equalTo(currentUserKey).on('value', function(noti){
+        let notiArray = Object.values(noti.val()).filter(n => n.status === 'pending');
+        document.getElementById('notification').innerHTML = notiArray.length;
+    });
+}
+
+function sendRequest(key){
+    let notification ={
+        sendTo:key,
+        sendFrom: currentUserKey,
+        name:firebase.auth().currentUser.displayName,
+        photo:firebase.auth().currentUser.photoURL,
+        dateTime: new Date().toLocaleString(),
+        status:'pending'
+    };
+    firebase.database().ref('notifications').push(notification, function (error){
+        if(error) alert(error);
+        else{
+            populateUserList();
+        }
+    });
+}
+
+function populateNotifications(){
+    document.getElementById('lstNotification').innerHTML =`<div class="text-center">
+                                                     <span class="spinner-border text-primary mt-5" style="width:7rem; height:7rem">
+                                                    </div>`;                                          
+    var db = firebase.database().ref('notifications');
+    var lst = '';
+    db.orderByChild('sendTo').equalTo(currentUserKey).on('value', function(notis){
+        if(notis.hasChildren()){
+            lst = `<li class="list-group-item" style="background-color: #f8f8f8;">
+            <input type="text" placeholder="search or new chat" class="form-control form-rounded">
+        </li>`;
+        }
+        notis.forEach(function(data){
+            var noti = data.val();
+            if(noti.status === 'pending'){
+                lst += `<li class="list-group-item list-group-item-action">
              <div class="row">
                  <div class="col-md-2">
-                     <img src="${user.photoURL}" alt="image" class="friend-pic rounded-circle">
+                     <img src="${noti.photo}" alt="image" class="friend-pic rounded-circle">
                  </div>
                  <div class="col-md-10" style="cursor: pointer;">
-                     <div class="name">${user.name}</div>
+                     <div class="name">${noti.name}
+                     <button onclick = "reject('${data.key}')" class = "btn btn-sm btn-danger" style = "float:right; margin-left:1%;"><i class="fas fa-user-times"></i> Reject </button>
+                     <button onclick = "accept('${data.key}')" class = "btn btn-sm btn-success" style = "float:right;"><i class="fas fa-user-check"></i> Accept </button>
+                     </div>
                      
                  </div>
              </div>
          </li>`;
-            }
-             
+            }    
         });
-        document.getElementById('lstFriend').innerHTML = lst;
-    });                                                 
+        document.getElementById('lstNotification').innerHTML = lst;
+    });
+}
+
+function reject(key){
+    let db =  firebase.database().ref('notifications').child(key).once('value',function (noti){
+        let obj = noti.val();
+        obj.status = "Reject";
+        firebase.database().ref('notifications').child(key).update(obj, function(error){
+            if(error) alert(error);
+            else{
+                populateNotifications();
+            }
+        });
+    });
+}
+
+function accept(key){
+    let db =  firebase.database().ref('notifications').child(key).once('value',function (noti){
+        var obj = noti.val();
+        obj.status = "Accept";
+        firebase.database().ref('notifications').child(key).update(obj, function(error){
+            if(error) alert(error);
+            else{
+                populateNotifications();
+                var friendList = {friendId: obj.sendFrom, userId: obj.sendTo};
+                firebase.database().ref('friend_list').push(friendList, function(error){
+                    if(error) alert(error);
+                    else{
+                        // do something
+                    }
+                });
+            }
+        });
+    });
+}
+
+function populateFriendList(){
+    // document.getElementById('lstFriend').innerHTML =`<div class="text-center">
+    //                                                  <span class="spinner-border text-primary mt-5" style="width:7rem; height:7rem">
+    //                                                 </div>`;                                          
+    // var db = firebase.database().ref('users');
+    // var lst = '';
+    // db.on('value', function(users){
+    //     if(users.hasChildren()){
+    //         lst = `<li class="list-group-item" style="background-color: #f8f8f8;">
+    //         <input type="text" placeholder="search or new chat" class="form-control form-rounded">
+    //     </li>`;
+    //     }
+    //     users.forEach(function(data){
+    //         var user = data.val();
+    //         if(user.email !== firebase.auth().currentUser.email){
+    //             lst += `<li class="list-group-item list-group-item-action" data-dismiss = "modal" onclick="startChat('${data.key}','${user.name}','${user.photoURL}')">
+    //          <div class="row">
+    //              <div class="col-md-2">
+    //                  <img src="${user.photoURL}" alt="image" class="friend-pic rounded-circle">
+    //              </div>
+    //              <div class="col-md-10" style="cursor: pointer;">
+    //                  <div class="name">${user.name}</div>
+                     
+    //              </div>
+    //          </div>
+    //      </li>`;
+    //         }
+             
+    //     });
+    //     document.getElementById('lstFriend').innerHTML = lst;
+    // });                                                 
 }
 
 
@@ -410,6 +562,7 @@ function onStatChanged(user) {
                 document.getElementById('lnkNewChat').classList.remove('disabled');
 
                 loadChatList();
+                notificationCount();
             });
 
             
